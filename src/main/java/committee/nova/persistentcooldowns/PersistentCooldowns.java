@@ -1,19 +1,13 @@
 package committee.nova.persistentcooldowns;
 
-import net.minecraft.ResourceLocationException;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.resources.ResourceLocation;
+import committee.nova.persistentcooldowns.util.Utilities;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.IExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 
 @Mod(PersistentCooldowns.MODID)
 public class PersistentCooldowns {
@@ -28,19 +22,11 @@ public class PersistentCooldowns {
     @SubscribeEvent
     public void onJoin(PlayerEvent.PlayerLoggedInEvent event) {
         final Player player = event.getEntity();
-        final CompoundTag tag = player.getPersistentData();
-        if (!tag.contains("persistent_cooldowns")) return;
-        final ListTag cooldowns = tag.getList("persistent_cooldowns", 10);
-        cooldowns.forEach(t -> {
-            if (!(t instanceof CompoundTag c)) return;
-            try {
-                final ResourceLocation rl = new ResourceLocation(c.getString("item"));
-                final Item item = ForgeRegistries.ITEMS.getValue(rl);
-                if (item == null || item.equals(Items.AIR)) return;
-                player.getCooldowns().addCooldown(item, c.getInt("cd"));
-            } catch (ResourceLocationException r) {
-                r.printStackTrace();
-            }
-        });
+        Utilities.loadCooldowns(player.getPersistentData(), player);
+    }
+
+    @SubscribeEvent
+    public void onClone(PlayerEvent.Clone event) {
+        Utilities.loadCooldowns(event.getOriginal().getPersistentData(), event.getEntity());
     }
 }
