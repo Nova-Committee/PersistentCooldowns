@@ -1,6 +1,7 @@
 package committee.nova.persistentcooldowns;
 
 import committee.nova.persistentcooldowns.util.Utilities;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -27,6 +28,8 @@ public class PersistentCooldowns {
 
     @SubscribeEvent
     public void onClone(PlayerEvent.Clone event) {
-        Utilities.loadCooldowns(event.getOriginal().getPersistentData(), event.getEntity());
+        final CompoundTag temp = new CompoundTag();
+        Utilities.saveCooldowns(temp, event.getOriginal());
+        Utilities.loadCooldowns(temp, event.getEntity());
     }
 }

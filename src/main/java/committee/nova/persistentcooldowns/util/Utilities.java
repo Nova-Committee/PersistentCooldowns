@@ -1,5 +1,6 @@
 package committee.nova.persistentcooldowns.util;
 
+import committee.nova.persistentcooldowns.api.IItemCooldowns;
 import net.minecraft.ResourceLocationException;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -24,5 +25,16 @@ public class Utilities {
                 r.printStackTrace();
             }
         });
+    }
+
+    public static void saveCooldowns(CompoundTag tag, Player player) {
+        final ListTag cooldowns = new ListTag();
+        ((IItemCooldowns) player.getCooldowns()).getCooldownTicks().forEach((r, i) -> {
+            final CompoundTag cooldown = new CompoundTag();
+            cooldown.putString("item", r.toString());
+            cooldown.putInt("cd", i);
+            cooldowns.add(cooldown);
+        });
+        tag.put("persistent_cooldowns", cooldowns);
     }
 }

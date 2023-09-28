@@ -1,10 +1,9 @@
 package committee.nova.persistentcooldowns.mixin;
 
 import com.mojang.authlib.GameProfile;
-import committee.nova.persistentcooldowns.api.IItemCooldowns;
+import committee.nova.persistentcooldowns.util.Utilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -21,14 +20,6 @@ public abstract class MixinServerPlayer extends Player {
 
     @Inject(method = "addAdditionalSaveData", at = @At("HEAD"))
     private void inject$addAdditionalSaveData(CompoundTag tag0, CallbackInfo ci) {
-        final CompoundTag tag = getPersistentData();
-        final ListTag cooldowns = new ListTag();
-        ((IItemCooldowns) getCooldowns()).getCooldownTicks().forEach((r, i) -> {
-            final CompoundTag cooldown = new CompoundTag();
-            cooldown.putString("item", r.toString());
-            cooldown.putInt("cd", i);
-            cooldowns.add(cooldown);
-        });
-        tag.put("persistent_cooldowns", cooldowns);
+        Utilities.saveCooldowns(getPersistentData(), this);
     }
 }
