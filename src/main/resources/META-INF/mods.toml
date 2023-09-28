@@ -1,0 +1,9 @@
+modLoader = "javafml"
+loaderVersion = "[48,)"
+license = "GNU AGPL 3.0"
+[[mods]]
+modId = "persistentcooldowns"
+version = "${file.jarVersion}"
+displayName = "PersistentCooldowns"
+authors = "Tapio"
+description = "Make ItemCooldowns persistent"
