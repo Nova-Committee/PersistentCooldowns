@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "committee.nova.persistcd.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "persistcd.refmap.json",
+  "mixins": [
+    "MixinItemCooldowns",
+    "MixinServerPlayer",
+    "AccessorCooldownInstance"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
