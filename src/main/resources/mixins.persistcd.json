@@ -1,0 +1,12 @@
+{
+  "package": "committee.nova.persistcd.mixin",
+  "required": true,
+  "refmap": "mixins.persistcd.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "AccessorCoolDown",
+    "MixinEntityPlayerMP",
+    "MixinItemCooldowns"
+  ]
+}

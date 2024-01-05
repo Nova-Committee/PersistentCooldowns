@@ -1,0 +1,12 @@
+[
+  {
+    "modid": "${mod_id}",
+    "name": "${mod_name}",
+    "description": "Persist item cooldowns",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "authorList": [
+      "Tapio"
+    ]
+  }
+]
